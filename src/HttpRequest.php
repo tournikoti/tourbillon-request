@@ -20,6 +20,7 @@ namespace Tourbillon\Request;
 class HttpRequest {
 
     protected $sBaseUrl;
+    protected $sMainUrl;
     protected $sUrl;
     protected $sBasePath;
     protected $sMethod;
@@ -95,6 +96,14 @@ class HttpRequest {
     }
     
     /**
+     * Retourne l'URL du projet sans le host. exemple : /monsite/
+     * @return string
+     */
+    public function getMainUrl() {
+        return $this->sBaseUrl;
+    }
+    
+    /**
      * Retourne le type de methode. exemple : GET, POST
      * @return type
      */
@@ -123,7 +132,10 @@ class HttpRequest {
         if (isset($_SERVER['HTTP_HOST'])) {
             $this->sBaseUrl = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
             $this->sBaseUrl .= '://' . $_SERVER['HTTP_HOST'];
-            $this->sBaseUrl .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+            
+            $this->sMainUrl = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+            
+            $this->sBaseUrl .= $this->sMainUrl;
         } else {
             $this->sBaseUrl = 'http://localhost/';
         }
