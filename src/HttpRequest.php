@@ -100,7 +100,7 @@ class HttpRequest {
      * @return string
      */
     public function getMainUrl() {
-        return $this->sBaseUrl;
+        return $this->sMainUrl;
     }
     
     /**
